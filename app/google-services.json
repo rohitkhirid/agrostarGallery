@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "259793944415",
+    "project_id": "gallery-app-66f05"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259793944415:android:c3e13c59f927ee64",
+        "android_client_info": {
+          "package_name": "rohitkhirid.com.galleryappagrostar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259793944415-sthij8aeivjhs556qjiv9pv0pfqi597u.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "259793944415-ubne897h8jnbbb5agc5hg8j4mptnpi3i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rohitkhirid.com.galleryappagrostar",
+            "certificate_hash": "ad942413300798c2fc6b247a43a3312087bd2554"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy6mn2BNw3ecfYfx0QlH5sgQvgLRwZsuw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

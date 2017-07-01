@@ -1,0 +1,30 @@
+all passwords are : `agrostar`
+
+
+Rohits-MacBook-Pro:release_credentials rohitkhirid$ keytool -exportcert -list -v -alias key0 -keystore release_keystore.jks
+Enter keystore password:
+Alias name: key0
+Creation date: Jul 1, 2017
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=Rohit Khirid, OU=Android, O=Personal, L=Pune, ST=Maharashtra, C=411043
+Issuer: CN=Rohit Khirid, OU=Android, O=Personal, L=Pune, ST=Maharashtra, C=411043
+Serial number: 45789ed6
+Valid from: Sat Jul 01 13:43:45 IST 2017 until: Wed Jun 25 13:43:45 IST 2042
+Certificate fingerprints:
+	 MD5:  AE:1B:19:15:8E:E2:05:3D:38:8E:AB:83:17:29:D1:F0
+	 SHA1: AD:94:24:13:30:07:98:C2:FC:6B:24:7A:43:A3:31:20:87:BD:25:54
+	 SHA256: 8C:C6:30:E0:2C:27:0B:5A:98:EA:04:14:62:F3:D0:37:10:AD:19:F3:B9:DB:53:19:64:23:3E:F9:20:8A:13:AC
+	 Signature algorithm name: SHA256withRSA
+	 Version: 3
+
+Extensions:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: B1 6F A4 46 51 F1 48 44   3B 14 79 4E F1 59 A3 AD  .o.FQ.HD;.yN.Y..
+0010: 3C 8E CC 35                                        <..5
+]
+]
