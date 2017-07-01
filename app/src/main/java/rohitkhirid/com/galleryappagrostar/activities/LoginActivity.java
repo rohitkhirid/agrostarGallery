@@ -1,11 +1,10 @@
-package activities;
+package rohitkhirid.com.galleryappagrostar.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.auth.api.Auth;
@@ -16,9 +15,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import Utils.Utils;
-import constants.IntentConstants;
 import rohitkhirid.com.galleryappagrostar.R;
+import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
+import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
+import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
+import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
 /**
  * we cannot extend this activity from base activity,
@@ -27,8 +28,6 @@ import rohitkhirid.com.galleryappagrostar.R;
  * if we extend it from base activity inception of activities can happen ;-)
  */
 public class LoginActivity extends AppCompatActivity {
-    private String mTag = "LoginActivity";
-
     private GoogleApiClient mGoogleApiClient;
 
     private SignInButton mGoogleSignInButton;
@@ -36,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     public static void startMe(Activity activity) {
         Intent loginActivityIntent = new Intent(activity, LoginActivity.class);
         activity.startActivity(loginActivityIntent);
-        activity.finish();
     }
 
     @Override
@@ -59,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleApiClient.OnConnectionFailedListener mOnConnectionFailedListener = new GoogleApiClient.OnConnectionFailedListener() {
         @Override
         public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-            Log.d(mTag, "onConnectionFailed : " + connectionResult.getErrorMessage());
+            DebugLog.d("onConnectionFailed : " + connectionResult.getErrorMessage());
         }
     };
 
@@ -68,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(mTag, "onButtonClick");
+                DebugLog.d("onButtonClick");
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, IntentConstants.INTENT_CODE_GOOGLE_SIGN_IN);
             }
@@ -78,20 +76,37 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(mTag, "requestCode : " + requestCode);
-        Log.d(mTag, "resultCode : " + resultCode);
         if (requestCode == IntentConstants.INTENT_CODE_GOOGLE_SIGN_IN && resultCode == Activity.RESULT_OK) {
-            Log.d(mTag, "onActivityResult from google sign in");
+            DebugLog.d("onActivityResult from google sign in");
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
-                Log.d(mTag, "log-in success");
+                DebugLog.d("log-in success");
                 GoogleSignInAccount account = result.getSignInAccount();
-                Log.d(mTag, account.getDisplayName());
-                Utils.getInstance().showToast("Success");
+                if (account != null) {
+                    DebugLog.d("setting status to shared preference");
+                    SharedPreferenceManager.getInstance().setUserLoginStatus(true);
+                    SharedPreferenceManager.getInstance().writeGoogleAccount(account);
+                    DebugLog.d("redirecting user to dashboard screen");
+                    DashboardActivity.startMe(this);
+                    finish();
+                } else {
+                    Utils.getInstance().showToast("Totally unexpected, Google you can't do this!");
+                }
             } else {
-                Log.d(mTag, "log-in failed");
+                DebugLog.d("log-in failed");
                 Utils.getInstance().showToast("failed");
             }
         }
+    }
+
+    private void freeUpResources() {
+        mGoogleSignInButton = null;
+        mGoogleApiClient = null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        freeUpResources();
     }
 }

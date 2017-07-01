@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_margin">24dp</dimen>
+    <dimen name="empty_message_textsize">18sp</dimen>
+    <dimen name="standard_padding">16dp</dimen>
+    <dimen name="plank_image_size">72dp</dimen>
+    <dimen name="fontsize_big">18sp</dimen>
+    <dimen name="fontsize_medium">16sp</dimen>
+    <dimen name="fontsize_small">14sp</dimen>
+</resources>

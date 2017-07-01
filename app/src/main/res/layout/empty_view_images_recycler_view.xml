@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:padding="@dimen/standard_padding"
+        android:text="@string/message_take_photos"
+        android:textSize="@dimen/empty_message_textsize" />
+
+    <Button
+        android:id="@+id/start_button"
+        style="@style/BaseButtonTheme"
+        android:layout_margin="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/label_start" />
+
+</LinearLayout>
