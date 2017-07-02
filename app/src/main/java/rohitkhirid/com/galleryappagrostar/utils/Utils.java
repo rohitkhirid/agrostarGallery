@@ -25,7 +25,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 
@@ -306,6 +308,23 @@ public class Utils {
         } catch (Exception e) {
             DebugLog.e(e.getMessage());
         }
+    }
 
+    /**
+     * Returns the parameter date and time in human readable form.
+     *
+     * @param time
+     * @return
+     */
+    public String toHumanReadableDateAndTime(long time) {
+        return (new SimpleDateFormat("dd MMM yyyy hh:mm:ss a")).format(new Date(time));
+    }
+
+    public String humanReadableByteCount(long bytes, boolean si) {
+        int unit = si ? 1000 : 1024;
+        if (bytes < unit) return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
 }

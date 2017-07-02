@@ -72,8 +72,10 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
                             .centerInside()
                             .into(mImageView);
                     Utils.getInstance().setTextToTextView(mFileNameTextView, file.getName());
-                    Utils.getInstance().setTextToTextView(mFileSizeTextView, String.valueOf(file.length()));
-                    Utils.getInstance().setTextToTextView(mFileTimeStampTextView, String.valueOf(file.lastModified()));
+                    Utils.getInstance().setTextToTextView(mFileSizeTextView,
+                            Utils.getInstance().humanReadableByteCount(file.length(), true));
+                    Utils.getInstance().setTextToTextView(mFileTimeStampTextView,
+                            Utils.getInstance().toHumanReadableDateAndTime(file.lastModified()));
                 }
             } else {
                 Picasso.with(mContext).load(R.drawable.ic_broken_image).into(mImageView);
