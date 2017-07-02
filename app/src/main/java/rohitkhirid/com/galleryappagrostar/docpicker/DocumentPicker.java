@@ -2,6 +2,7 @@ package rohitkhirid.com.galleryappagrostar.docpicker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -90,6 +91,13 @@ public class DocumentPicker extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE) {
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                    return;
+                }
+            }
+
             getCameraImage();
         }
     }
