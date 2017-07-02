@@ -17,6 +17,7 @@ import rohitkhirid.com.galleryappagrostar.activities.FullScreenImageActivity;
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
+import rohitkhirid.com.galleryappagrostar.utils.WrapperCloudnary;
 
 /**
  * Created by rohitkhirid on 7/1/17.

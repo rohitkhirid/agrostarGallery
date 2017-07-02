@@ -156,8 +156,8 @@ public class SharedPreferenceManager {
         Set<String> stringSet = sharedpreferences.getStringSet(SharedPreferenceKeys.PREF_PHOTO_PUBLIC_IDS, null);
         if (stringSet == null) {
             stringSet = new HashSet<>();
-            stringSet.add(publicId);
         }
+        stringSet.add(publicId);
     }
 }
 

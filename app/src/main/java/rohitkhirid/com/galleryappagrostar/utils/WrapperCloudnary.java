@@ -3,6 +3,7 @@ package rohitkhirid.com.galleryappagrostar.utils;
 import android.content.Context;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Url;
 
 import java.io.File;
 import java.util.HashMap;
