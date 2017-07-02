@@ -138,6 +138,26 @@ public class DocumentPicker extends BaseActivity {
 
         if(requestCode == IntentConstants.INTENT_CODE_GALLERY_IMAGE && resultCode == Activity.RESULT_OK) {
             DebugLog.d("onActivityResult for gallery image");
+            Parcelable[] parcelableUris = Utils.getInstance().getParcelableUrisFromData(data);
+            if (parcelableUris == null) {
+                finish();
+            } else {
+                Intent intentWithUris = new Intent();
+                ArrayList<Parcelable> parcelableArrayList = new ArrayList<>();
+                for (Parcelable P : parcelableUris) {
+                    if (ImageUtils.isImage(P.toString())) {
+                        parcelableArrayList.add(P);
+                    } else {
+                        // TODO remove this when we start supporting other formats
+                        Utils.getInstance().showToast("Only image files are allowed.");
+                        DebugLog.e(P.toString() + " is not image file");
+                    }
+                }
+                DebugLog.d("Total image selected : " + parcelableArrayList.size());
+                intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);
+                setResult(Activity.RESULT_OK, intentWithUris);
+                finish();
+            }
         }
     }
 }

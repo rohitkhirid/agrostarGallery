@@ -1,6 +1,7 @@
 package rohitkhirid.com.galleryappagrostar.utils;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 import java.io.File;
@@ -31,5 +32,23 @@ public class ImageUtils {
                 storageDir      /* directory */
         );
         return image.getAbsolutePath();
+    }
+
+    public static boolean isImage(String filePath) {
+        if (filePath != null) {
+            File file = new File(filePath);
+            return isImage(file);
+        }
+        return false;
+    }
+
+    public static boolean isImage(File file) {
+        if (file == null || !file.exists()) {
+            return false;
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getPath(), options);
+        return options.outWidth != -1 && options.outHeight != -1;
     }
 }
