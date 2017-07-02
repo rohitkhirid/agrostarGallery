@@ -23,7 +23,7 @@ public class UploadService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         try {
-            mFilePath = intent.getStringExtra(IntentConstants.INTENT_KEY_FILE_PATH);
+            mFilePath = intent.getStringExtra(IntentConstants.INTENT_KEY_FILE_PATH_UPLOAD);
             DebugLog.d("mFilePath : " + mFilePath);
             File file = new File(mFilePath);
             WrapperCloudnary.getInstance().upload(file);

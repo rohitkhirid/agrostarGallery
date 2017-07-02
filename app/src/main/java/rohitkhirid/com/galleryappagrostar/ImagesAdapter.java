@@ -1,6 +1,6 @@
 package rohitkhirid.com.galleryappagrostar;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
 
+import rohitkhirid.com.galleryappagrostar.activities.FullScreenImageActivity;
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
@@ -21,11 +22,11 @@ import rohitkhirid.com.galleryappagrostar.utils.Utils;
  * Created by rohitkhirid on 7/1/17.
  */
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder> {
-    private Context mContext;
+    private Activity mActivity;
     private ArrayList<String> mImagePaths;
 
-    public ImagesAdapter(Context context, ArrayList<String> imagePaths) {
-        mContext = context;
+    public ImagesAdapter(Activity activity, ArrayList<String> imagePaths) {
+        mActivity = activity;
         mImagePaths = imagePaths;
     }
 
@@ -52,6 +53,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private TextView mFileNameTextView, mFileSizeTextView, mFileTimeStampTextView;
+        private View mPlankView;
 
         public ViewHolder(View view) {
             super(view);
@@ -59,14 +61,15 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
             mFileNameTextView = (TextView) view.findViewById(R.id.filename_textview);
             mFileSizeTextView = (TextView) view.findViewById(R.id.filesize_textview);
             mFileTimeStampTextView = (TextView) view.findViewById(R.id.timestamp_textview);
+            mPlankView = view;
         }
 
-        public void onBindCustomViewHolder(int position) {
-            String filePath = mImagePaths.get(position);
+        public void onBindCustomViewHolder(final int position) {
+            final String filePath = mImagePaths.get(position);
             if (!Utils.getInstance().isEmpty(filePath)) {
                 File file = new File(filePath);
                 if (file != null) {
-                    Picasso.with(mContext)
+                    Picasso.with(mActivity)
                             .load(file)
                             .resize(Constants.MAX_EDGE_THUMBNAIL, Constants.MAX_EDGE_THUMBNAIL)
                             .centerInside()
@@ -78,8 +81,15 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
                             Utils.getInstance().toHumanReadableDateAndTime(file.lastModified()));
                 }
             } else {
-                Picasso.with(mContext).load(R.drawable.ic_broken_image).into(mImageView);
+                Picasso.with(mActivity).load(R.drawable.ic_broken_image).into(mImageView);
             }
+            mPlankView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DebugLog.d("plankClick, position : " + position);
+                    FullScreenImageActivity.startMe(mActivity, filePath);
+                }
+            });
         }
     }
 }

@@ -18,8 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="CLOUDINARY_URL" android:value="cloudinary://878111434762122:gkITCW8WT_uPr9WNiaKo7CSHfSU@agrostargallery"/>
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="cloudinary://878111434762122:gkITCW8WT_uPr9WNiaKo7CSHfSU@agrostargallery" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -35,6 +36,7 @@
         <activity android:name=".activities.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,6 +45,8 @@
             android:theme="@style/DialogActivityTheme" />
 
         <service android:name=".services.UploadService" />
+
+        <activity android:name=".activities.FullScreenImageActivity"></activity>
     </application>
 
 </manifest>

@@ -130,7 +130,7 @@ public class DocumentPicker extends BaseActivity {
             DebugLog.d("file size : " + fileSize);
             if (fileSize != 0) {
                 Intent intent = new Intent(mActivity, UploadService.class);
-                intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH, mCameraImageFilePath);
+                intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH_UPLOAD, mCameraImageFilePath);
                 startService(intent);
                 parcelableArrayList.add(Uri.parse(file.getAbsolutePath()));
                 intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);
@@ -152,7 +152,7 @@ public class DocumentPicker extends BaseActivity {
                 for (Parcelable P : parcelableUris) {
                     if (ImageUtils.isImage(P.toString())) {
                         Intent intent = new Intent(mActivity, UploadService.class);
-                        intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH, P.toString());
+                        intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH_UPLOAD, P.toString());
                         startService(intent);
                         parcelableArrayList.add(P);
                     } else {
