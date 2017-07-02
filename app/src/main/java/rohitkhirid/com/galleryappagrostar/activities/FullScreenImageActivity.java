@@ -46,22 +46,40 @@ public class FullScreenImageActivity extends BaseActivity {
 
         initUi();
 
-        File file = new File(mImagePath);
-        mProgressBar.setVisibility(View.VISIBLE);
-        Picasso.with(mActivity)
-                .load(file)
-                .into(mImageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        mProgressBar.setVisibility(View.GONE);
-                    }
+        if (mImagePath.contains("http://")) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            Picasso.with(mActivity)
+                    .load(mImagePath)
+                    .into(mImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            mProgressBar.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onError() {
-                        mProgressBar.setVisibility(View.GONE);
-                        mImageView.setImageDrawable(ContextCompat.getDrawable(mActivity, R.drawable.ic_broken_image));
-                    }
-                });
+                        @Override
+                        public void onError() {
+                            mProgressBar.setVisibility(View.GONE);
+                            mImageView.setImageDrawable(ContextCompat.getDrawable(mActivity, R.drawable.ic_broken_image));
+                        }
+                    });
+        } else {
+            File file = new File(mImagePath);
+            mProgressBar.setVisibility(View.VISIBLE);
+            Picasso.with(mActivity)
+                    .load(file)
+                    .into(mImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            mProgressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            mProgressBar.setVisibility(View.GONE);
+                            mImageView.setImageDrawable(ContextCompat.getDrawable(mActivity, R.drawable.ic_broken_image));
+                        }
+                    });
+        }
     }
 
     private void initUi() {

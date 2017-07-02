@@ -1,6 +1,8 @@
 package rohitkhirid.com.galleryappagrostar.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
+import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
 
 /**
  * Created by rohitkhirid on 7/2/17.
@@ -53,6 +56,10 @@ public class WrapperCloudnary {
             Map map = mCloudnary.uploader().upload(file, inputMap);
             DebugLog.d("adding key to shared preferency : " + map.get("url").toString());
             SharedPreferenceManager.getInstance().addImagePublicId(map.get("url").toString());
+
+            Intent intent = new Intent(IntentConstants.BROADCAST_UI_CHANGE_URL_ADAPTER);
+            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+            localBroadcastManager.sendBroadcast(intent);
         } catch (Exception e) {
             DebugLog.e("exception in cloudnary");
             e.printStackTrace();

@@ -50,6 +50,7 @@
 
         <activity android:name=".activities.FullScreenImageActivity" />
         <activity android:name=".activities.AccountDetailsActivity" />
+        <activity android:name=".activities.CloudinaryUrlsActivity"></activity>
     </application>
 
 </manifest>

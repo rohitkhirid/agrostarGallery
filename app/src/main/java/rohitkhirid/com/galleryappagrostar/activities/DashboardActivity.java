@@ -19,8 +19,8 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
-import rohitkhirid.com.galleryappagrostar.ImagesAdapter;
 import rohitkhirid.com.galleryappagrostar.R;
+import rohitkhirid.com.galleryappagrostar.adapters.ImagesAdapter;
 import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
 import rohitkhirid.com.galleryappagrostar.docpicker.DocumentPicker;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
@@ -30,6 +30,7 @@ import rohitkhirid.com.galleryappagrostar.utils.Utils;
 public class DashboardActivity extends BaseActivity {
     private static final int MENU_ACCOUNT_DETAILS = 1;
     private static final int MENU_LOGOUT = 2;
+    private static final int MENU_CLOUDANIRY_URLS = 3;
 
     private Button mSelectPhotoButton;
     private SuperRecyclerView mImageRecyclerView;
@@ -46,6 +47,7 @@ public class DashboardActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, MENU_ACCOUNT_DETAILS, 1, R.string.label_account_details);
         menu.add(0, MENU_LOGOUT, 2, R.string.label_logout);
+        menu.add(0, MENU_CLOUDANIRY_URLS, 3, R.string.label_cloudinary_urls);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -68,6 +70,11 @@ public class DashboardActivity extends BaseActivity {
                         finish();
                     }
                 }, null, getString(R.string.label_logout), getString(R.string.label_cancel));
+                break;
+
+            case MENU_CLOUDANIRY_URLS:
+                DebugLog.d("cloudinary urls");
+                CloudinaryUrlsActivity.startMe(mActivity);
                 break;
         }
         return true;

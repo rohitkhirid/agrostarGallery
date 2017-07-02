@@ -1,4 +1,4 @@
-package rohitkhirid.com.galleryappagrostar;
+package rohitkhirid.com.galleryappagrostar.adapters;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
 
+import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.activities.FullScreenImageActivity;
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;

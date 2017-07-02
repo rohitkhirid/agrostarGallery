@@ -28,4 +28,6 @@ public class IntentConstants {
     public static final String INTENT_KEY_FILE_PATH_FULLSCREEN = "fullScreenActivity.filepath";
 
     public static final String BROADCAST_UI_CHANGE_IMAGE_ADAPTER = "dashboardactivity.uichange.imageadappter";
+
+    public static final String BROADCAST_UI_CHANGE_URL_ADAPTER = "dashboardactivity.uichange.urlsAdapter";
 }
