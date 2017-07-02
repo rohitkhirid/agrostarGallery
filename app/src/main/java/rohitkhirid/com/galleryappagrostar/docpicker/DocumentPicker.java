@@ -56,7 +56,7 @@ public class DocumentPicker extends BaseActivity {
                 DebugLog.d("DocumentPicker : camera click");
                 if (!PermissionUtils.checkCameraAndStoragePermission(mActivity)) {
                     DebugLog.d("Permissions not present, requesting permissions");
-                    PermissionUtils.requestCameraStoragePermission(null, DocumentPicker.this);
+                    PermissionUtils.requestCameraStoragePermission(null, DocumentPicker.this, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_CAMERA);
                 } else {
                     DebugLog.d("have required permissions");
                     getCameraImage();
@@ -69,14 +69,13 @@ public class DocumentPicker extends BaseActivity {
             @Override
             public void onClick(View v) {
                 DebugLog.d("DocumentPicker : gallery click");
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                if (Build.VERSION.SDK_INT >= 18) {
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                if (!PermissionUtils.checkCameraAndStoragePermission(mActivity)) {
+                    DebugLog.d("Permissions not present, requesting permissions");
+                    PermissionUtils.requestCameraStoragePermission(null, DocumentPicker.this, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_GALLERY);
+                } else {
+                    DebugLog.d("have required permissions");
+                    getGalleryImages();
                 }
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, IntentConstants.INTENT_CODE_GALLERY_IMAGE);
             }
         });
     }
@@ -90,7 +89,7 @@ public class DocumentPicker extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE) {
+        if (requestCode == IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_CAMERA) {
             for (int result : grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
                     finish();
@@ -99,6 +98,17 @@ public class DocumentPicker extends BaseActivity {
             }
 
             getCameraImage();
+        }
+
+        if (requestCode == IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_GALLERY) {
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                    return;
+                }
+            }
+
+            getGalleryImages();
         }
     }
 
@@ -124,6 +134,17 @@ public class DocumentPicker extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void getGalleryImages() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        if (Build.VERSION.SDK_INT >= 18) {
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        }
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, IntentConstants.INTENT_CODE_GALLERY_IMAGE);
     }
 
     @Override
@@ -167,9 +188,6 @@ public class DocumentPicker extends BaseActivity {
                         DebugLog.e(P.toString() + " is not image file");
                     }
                 }
-                DebugLog.d("Total image selected : " + parcelableArrayList.size());
-                intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);
-                setResult(Activity.RESULT_OK, intentWithUris);
                 AsyncTask.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -178,6 +196,9 @@ public class DocumentPicker extends BaseActivity {
                         UploadService.startMe(mActivity, parcelableArrayList);
                     }
                 });
+                DebugLog.d("Total image selected : " + parcelableArrayList.size());
+                intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);
+                setResult(Activity.RESULT_OK, intentWithUris);
                 finish();
             }
         }

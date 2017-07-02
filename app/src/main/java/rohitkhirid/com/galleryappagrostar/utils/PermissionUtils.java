@@ -21,11 +21,11 @@ public class PermissionUtils {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    public static void requestCameraStoragePermission(@Nullable Fragment fragment, @Nullable Activity activity) {
+    public static void requestCameraStoragePermission(@Nullable Fragment fragment, @Nullable Activity activity, int requestCode) {
         if (fragment != null) {
-            fragment.requestPermissions(PERMISSIONS_CAMERA_STORAGE, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE);
+            fragment.requestPermissions(PERMISSIONS_CAMERA_STORAGE, requestCode);
         } else if (activity != null) {
-            ActivityCompat.requestPermissions(activity, PERMISSIONS_CAMERA_STORAGE, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE);
+            ActivityCompat.requestPermissions(activity, PERMISSIONS_CAMERA_STORAGE, requestCode);
         } else {
             DebugLog.e("Both fragment and activity are null");
         }
