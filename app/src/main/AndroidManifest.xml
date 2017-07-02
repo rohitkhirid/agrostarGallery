@@ -44,10 +44,12 @@
             android:name=".docpicker.DocumentPicker"
             android:theme="@style/DialogActivityTheme" />
 
-        <service android:name=".services.UploadService" />
+        <service
+            android:name=".services.UploadService"
+            android:enabled="true" />
 
         <activity android:name=".activities.FullScreenImageActivity" />
-        <activity android:name=".activities.AccountDetailsActivity"></activity>
+        <activity android:name=".activities.AccountDetailsActivity" />
     </application>
 
 </manifest>

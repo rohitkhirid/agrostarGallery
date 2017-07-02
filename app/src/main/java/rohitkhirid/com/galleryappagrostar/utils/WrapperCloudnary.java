@@ -48,6 +48,7 @@ public class WrapperCloudnary {
     public void upload(File file) {
         try {
             Map map = mCloudnary.uploader().upload(file, Cloudinary.asMap("public_id", file.getName()), null);
+            DebugLog.d("adding key to shared preferency : " + map.get("url").toString());
             SharedPreferenceManager.getInstance().addImagePublicId(map.get("url").toString());
         } catch (Exception e) {
             DebugLog.e("exception in cloudnary");

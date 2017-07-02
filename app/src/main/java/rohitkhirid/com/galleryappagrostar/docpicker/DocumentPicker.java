@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -70,6 +71,9 @@ public class DocumentPicker extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                if (Build.VERSION.SDK_INT >= 18) {
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                }
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, IntentConstants.INTENT_CODE_GALLERY_IMAGE);
             }
@@ -125,9 +129,7 @@ public class DocumentPicker extends BaseActivity {
             int fileSize = Integer.parseInt(String.valueOf(file.length()));
             DebugLog.d("file size : " + fileSize);
             if (fileSize != 0) {
-                Intent intent = new Intent(mActivity, UploadService.class);
-                intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH_UPLOAD, mCameraImageFilePath);
-                startService(intent);
+                UploadService.startMe(mActivity, mCameraImageFilePath);
                 parcelableArrayList.add(Uri.parse(file.getAbsolutePath()));
                 intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);
                 setResult(Activity.RESULT_OK, intentWithUris);
@@ -150,9 +152,6 @@ public class DocumentPicker extends BaseActivity {
                         continue;
                     }
                     if (ImageUtils.isImage(P.toString())) {
-                        Intent intent = new Intent(mActivity, UploadService.class);
-                        intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH_UPLOAD, P.toString());
-                        startService(intent);
                         parcelableArrayList.add(P);
                     } else {
                         // TODO remove this when we start supporting other formats
@@ -168,6 +167,7 @@ public class DocumentPicker extends BaseActivity {
                     public void run() {
                         DebugLog.d("moving files");
                         Utils.getInstance().copyFileToGalleryDirectory(parcelableArrayList);
+                        UploadService.startMe(mActivity, parcelableArrayList);
                     }
                 });
                 finish();

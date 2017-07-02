@@ -23,5 +23,7 @@ public class IntentConstants {
 
     public static final String INTENT_KEY_FILE_PATH_UPLOAD = "uploaderservice.filepath";
 
+    public static final String INTENT_KEY_FILE_PATHS_UPLOAD = "uploaderservice.filepath";
+
     public static final String INTENT_KEY_FILE_PATH_FULLSCREEN = "fullScreenActivity.filepath";
 }

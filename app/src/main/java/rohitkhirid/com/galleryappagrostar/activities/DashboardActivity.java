@@ -23,9 +23,8 @@ import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
 public class DashboardActivity extends BaseActivity {
-    private static final int MENU_SEE_REMOTE_IMAGES = 1;
-    private static final int MENU_ACCOUNT_DETAILS = 2;
-    private static final int MENU_LOGOUT = 3;
+    private static final int MENU_ACCOUNT_DETAILS = 1;
+    private static final int MENU_LOGOUT = 2;
 
     private Button mSelectPhotoButton;
     private SuperRecyclerView mImageRecyclerView;
@@ -40,19 +39,14 @@ public class DashboardActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, MENU_SEE_REMOTE_IMAGES, 1, R.string.label_remote_images);
-        menu.add(0, MENU_ACCOUNT_DETAILS, 2, R.string.label_account_details);
-        menu.add(0, MENU_LOGOUT, 3, R.string.label_logout);
+        menu.add(0, MENU_ACCOUNT_DETAILS, 1, R.string.label_account_details);
+        menu.add(0, MENU_LOGOUT, 2, R.string.label_logout);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case MENU_SEE_REMOTE_IMAGES:
-                DebugLog.d("remote images");
-                break;
-
             case MENU_ACCOUNT_DETAILS:
                 DebugLog.d("account details");
                 AccountDetailsActivity.startMe(mActivity);
@@ -75,6 +69,12 @@ public class DashboardActivity extends BaseActivity {
         setContentView(R.layout.activity_dashboard);
 
         initUi();
+
+        ArrayList<String> urls = SharedPreferenceManager.getInstance().getUrls();
+        DebugLog.d("# of images : " + urls.size());
+        for (String url : urls) {
+            DebugLog.d("url : " + url);
+        }
     }
 
     private void initUi() {

@@ -159,6 +159,9 @@ public class SharedPreferenceManager {
             stringSet = new HashSet<>();
         }
         stringSet.add(publicId);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putStringSet(SharedPreferenceKeys.PREF_PHOTO_PUBLIC_IDS, stringSet);
+        editor.apply();
     }
 
     public ArrayList<String> getUrls() {

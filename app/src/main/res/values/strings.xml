@@ -13,5 +13,4 @@
 
     <string name="label_logout">Logout</string>
     <string name="label_account_details">Account details</string>
-    <string name="label_remote_images">Remote images</string>
 </resources>
