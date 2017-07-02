@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="rohitkhirid.com.galleryappagrostar.activities.AccountDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <FrameLayout
+            android:id="@+id/pic_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/profile_image_view"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/ic_broken_image" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/profile_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pic_holder"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            tools:text="some long name that vehifbd" />
+
+        <Button
+            android:id="@+id/logout_button"
+            style="@style/BaseButtonTheme"
+            android:layout_width="100dp"
+            android:layout_below="@+id/profile_name_textview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/label_logout" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

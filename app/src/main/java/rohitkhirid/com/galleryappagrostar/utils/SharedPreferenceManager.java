@@ -60,6 +60,18 @@ public class SharedPreferenceManager {
         write(SharedPreferenceKeys.PREF_IS_USER_LOGGED_IN, isLoggedIn);
     }
 
+    public String getUserProfilePicLink() {
+        SharedPreferences sharedpreferences =
+                mContext.getSharedPreferences(SharedPreferenceKeys.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        return sharedpreferences.getString(SharedPreferenceKeys.PREF_PHOTO_URL, null);
+    }
+
+    public String getUserProfileName() {
+        SharedPreferences sharedpreferences =
+                mContext.getSharedPreferences(SharedPreferenceKeys.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        return sharedpreferences.getString(SharedPreferenceKeys.PREF_DISPLAY_NAME, null);
+    }
+
     /**
      * @return boolean with key {@link SharedPreferenceKeys#PREF_IS_USER_LOGGED_IN}
      */

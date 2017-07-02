@@ -46,7 +46,8 @@
 
         <service android:name=".services.UploadService" />
 
-        <activity android:name=".activities.FullScreenImageActivity"></activity>
+        <activity android:name=".activities.FullScreenImageActivity" />
+        <activity android:name=".activities.AccountDetailsActivity"></activity>
     </application>
 
 </manifest>
