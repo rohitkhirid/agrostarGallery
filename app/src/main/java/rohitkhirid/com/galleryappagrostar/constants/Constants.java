@@ -23,4 +23,6 @@ public class Constants {
     public static String CACHE_TEMP_IMAGES_SUBDIR = "temp_images";
 
     public static final String GALLERY_FILE_PROVIDER = "rohitkhirid.com.galleryappagrostar.fileprovider";
+
+    public static final int MAX_EDGE_THUMBNAIL = 400;
 }

@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
 
+import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
@@ -65,7 +66,11 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
             if (!Utils.getInstance().isEmpty(filePath)) {
                 File file = new File(filePath);
                 if (file != null) {
-                    Picasso.with(mContext).load(file).into(mImageView);
+                    Picasso.with(mContext)
+                            .load(file)
+                            .resize(Constants.MAX_EDGE_THUMBNAIL, Constants.MAX_EDGE_THUMBNAIL)
+                            .centerInside()
+                            .into(mImageView);
                     Utils.getInstance().setTextToTextView(mFileNameTextView, file.getName());
                     Utils.getInstance().setTextToTextView(mFileSizeTextView, String.valueOf(file.length()));
                     Utils.getInstance().setTextToTextView(mFileTimeStampTextView, String.valueOf(file.lastModified()));

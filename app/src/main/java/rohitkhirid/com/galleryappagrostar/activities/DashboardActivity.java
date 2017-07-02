@@ -66,10 +66,18 @@ public class DashboardActivity extends BaseActivity {
             DebugLog.d("Got images");
             ArrayList<Parcelable> images = data.getParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH);
             DebugLog.d("adding " + images.size() + " to adapter");
-            for (Parcelable parcelable : images) {
-                mImagePaths.add(parcelable.toString());
-            }
+            refreshAdapter();
+        }
+    }
+
+    private void refreshAdapter() {
+        try {
+            ArrayList<String> imagePaths = Utils.getInstance().getImageListFromAppStorage();
+            mImagePaths.clear();
+            mImagePaths.addAll(imagePaths);
             mImagesAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

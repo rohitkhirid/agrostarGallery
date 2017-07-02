@@ -3,6 +3,7 @@ package rohitkhirid.com.galleryappagrostar.docpicker;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -136,26 +137,33 @@ public class DocumentPicker extends BaseActivity {
             finish();
         }
 
-        if(requestCode == IntentConstants.INTENT_CODE_GALLERY_IMAGE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == IntentConstants.INTENT_CODE_GALLERY_IMAGE && resultCode == Activity.RESULT_OK) {
             DebugLog.d("onActivityResult for gallery image");
             Parcelable[] parcelableUris = Utils.getInstance().getParcelableUrisFromData(data);
             if (parcelableUris == null) {
                 finish();
             } else {
                 Intent intentWithUris = new Intent();
-                ArrayList<Parcelable> parcelableArrayList = new ArrayList<>();
+                final ArrayList<Parcelable> parcelableArrayList = new ArrayList<>();
                 for (Parcelable P : parcelableUris) {
-                    if (ImageUtils.isImage(P.toString())) {
-                        parcelableArrayList.add(P);
+                    parcelableArrayList.add(P);
+                    /*if (ImageUtils.isImage(P.toString())) {
                     } else {
                         // TODO remove this when we start supporting other formats
                         Utils.getInstance().showToast("Only image files are allowed.");
                         DebugLog.e(P.toString() + " is not image file");
-                    }
+                    }*/
                 }
                 DebugLog.d("Total image selected : " + parcelableArrayList.size());
                 intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);
                 setResult(Activity.RESULT_OK, intentWithUris);
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        DebugLog.d("moving files");
+                        Utils.getInstance().copyFileToGalleryDirectory(parcelableArrayList);
+                    }
+                });
                 finish();
             }
         }

@@ -19,6 +19,11 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
@@ -248,5 +253,59 @@ public class Utils {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(mContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }
+
+    public void copyFileToGalleryDirectory(ArrayList<Parcelable> filePaths) {
+        try {
+            for (Parcelable parcelable : filePaths) {
+                String filePath = parcelable.toString();
+                if (!isEmpty(filePath)) {
+                    copyFileToGalleryDirectory(new File(filePath));
+                }
+            }
+        } catch (Exception e) {
+            DebugLog.e("Exception : " + e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void copyFileToGalleryDirectory(File file) {
+        try {
+            File newFile = new File(ImageUtils.createImageFile(mContext));
+            copyFile(file, newFile);
+        } catch (Exception e) {
+            DebugLog.e("crashed while copying file");
+            e.printStackTrace();
+        }
+    }
+
+    private void copyFile(File inputFile, File outputFile) {
+        if (inputFile.length() == 0) {
+            DebugLog.d("input file is empty");
+            return;
+        }
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = new FileInputStream(inputFile);
+            out = new FileOutputStream(outputFile);
+
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+            in.close();
+            in = null;
+            // write the output file (You have now copied the file)
+            out.flush();
+            out.close();
+            out = null;
+        } catch (FileNotFoundException fnfe1) {
+            DebugLog.e(fnfe1.getMessage());
+        } catch (Exception e) {
+            DebugLog.e(e.getMessage());
+        }
+
     }
 }
