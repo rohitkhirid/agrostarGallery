@@ -19,6 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data android:name="CLOUDINARY_URL" android:value="cloudinary://878111434762122:gkITCW8WT_uPr9WNiaKo7CSHfSU@agrostargallery"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="rohitkhirid.com.galleryappagrostar.fileprovider"
@@ -39,6 +41,8 @@
         <activity
             android:name=".docpicker.DocumentPicker"
             android:theme="@style/DialogActivityTheme" />
+
+        <service android:name=".services.UploadService" />
     </application>
 
 </manifest>

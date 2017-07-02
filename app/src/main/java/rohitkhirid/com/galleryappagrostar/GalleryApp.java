@@ -5,6 +5,7 @@ import android.app.Application;
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
+import rohitkhirid.com.galleryappagrostar.utils.WrapperCloudnary;
 
 /**
  * Created by rohitkhirid on 7/1/17.
@@ -25,5 +26,8 @@ public class GalleryApp extends Application {
         if (Constants.LOG_OUT_ON_APP_UP) {
             SharedPreferenceManager.getInstance().destroy();
         }
+
+        // image server
+        WrapperCloudnary.init(this);
     }
 }

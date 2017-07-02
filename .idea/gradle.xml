@@ -9,6 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/cloudinary-android-1.13.0" />
+            <option value="$PROJECT_DIR$/cloudinary-core-1.13.0" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

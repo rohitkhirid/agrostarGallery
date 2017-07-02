@@ -25,4 +25,10 @@ public class Constants {
     public static final String GALLERY_FILE_PROVIDER = "rohitkhirid.com.galleryappagrostar.fileprovider";
 
     public static final int MAX_EDGE_THUMBNAIL = 400;
+
+    public static final String CLOUD_NAME = "agrostargallery";
+
+    public static final String API_KEY = "878111434762122";
+
+    public static final String API_SECRET_KEY = "gkITCW8WT_uPr9WNiaKo7CSHfSU";
 }

@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by rohitkhirid on 7/1/17.
  * <p>
@@ -44,6 +47,9 @@ public class SharedPreferenceManager {
         private static final String PREF_GIVEN_NAME = "shared_preference_given_name";
         private static final String PREF_FAMILY_NAME = "shared_preference_family_name";
         private static final String PREF_PHOTO_URL = "shared_preference_photo_url";
+
+        // set of public id's for cloudnary images
+        private static final String PREF_PHOTO_PUBLIC_IDS = "shared_preference_cloudinary_public_ids";
     }
 
     public static SharedPreferenceManager getInstance() {
@@ -130,6 +136,16 @@ public class SharedPreferenceManager {
         SharedPreferences sharedpreferences =
                 mContext.getSharedPreferences(SharedPreferenceKeys.PREF_FILE_NAME, Context.MODE_PRIVATE);
         return sharedpreferences.getBoolean(SharedPreferenceKeys.PREF_IS_USER_LOGGED_IN, false);
+    }
+
+    public void addImagePublicId(String publicId) {
+        SharedPreferences sharedpreferences =
+                mContext.getSharedPreferences(SharedPreferenceKeys.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        Set<String> stringSet = sharedpreferences.getStringSet(SharedPreferenceKeys.PREF_PHOTO_PUBLIC_IDS, null);
+        if (stringSet == null) {
+            stringSet = new HashSet<>();
+            stringSet.add(publicId);
+        }
     }
 }
 

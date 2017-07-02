@@ -20,4 +20,6 @@ public class IntentConstants {
     public static final String INTENT_KEY_IMAGE_FILEPATH = "documentpicker.selectedimages";
 
     public static final int INTENT_CODE_DOCUMENT_PICKER = 5;
+
+    public static final String INTENT_KEY_FILE_PATH = "uploaderservice.filepath";
 }

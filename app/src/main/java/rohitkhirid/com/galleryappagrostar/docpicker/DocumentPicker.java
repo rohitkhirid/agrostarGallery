@@ -18,6 +18,7 @@ import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.activities.BaseActivity;
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
+import rohitkhirid.com.galleryappagrostar.services.UploadService;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.ImageUtils;
 import rohitkhirid.com.galleryappagrostar.utils.PermissionUtils;
@@ -128,6 +129,9 @@ public class DocumentPicker extends BaseActivity {
             int fileSize = Integer.parseInt(String.valueOf(file.length()));
             DebugLog.d("file size : " + fileSize);
             if (fileSize != 0) {
+                Intent intent = new Intent(mActivity, UploadService.class);
+                intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH, mCameraImageFilePath);
+                startService(intent);
                 parcelableArrayList.add(Uri.parse(file.getAbsolutePath()));
                 intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);
                 setResult(Activity.RESULT_OK, intentWithUris);
@@ -146,13 +150,16 @@ public class DocumentPicker extends BaseActivity {
                 Intent intentWithUris = new Intent();
                 final ArrayList<Parcelable> parcelableArrayList = new ArrayList<>();
                 for (Parcelable P : parcelableUris) {
-                    parcelableArrayList.add(P);
-                    /*if (ImageUtils.isImage(P.toString())) {
+                    if (ImageUtils.isImage(P.toString())) {
+                        Intent intent = new Intent(mActivity, UploadService.class);
+                        intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH, P.toString());
+                        startService(intent);
+                        parcelableArrayList.add(P);
                     } else {
                         // TODO remove this when we start supporting other formats
                         Utils.getInstance().showToast("Only image files are allowed.");
                         DebugLog.e(P.toString() + " is not image file");
-                    }*/
+                    }
                 }
                 DebugLog.d("Total image selected : " + parcelableArrayList.size());
                 intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);

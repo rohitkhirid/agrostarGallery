@@ -49,5 +49,8 @@ dependencies {
     // pumped-up recycler view
     compile 'com.malinskiy:superrecyclerview:1.1.4'
 
+    compile project(':cloudinary-core-1.13.0')
+    compile project(':cloudinary-android-1.13.0')
+
     testCompile 'junit:junit:4.12'
 }
