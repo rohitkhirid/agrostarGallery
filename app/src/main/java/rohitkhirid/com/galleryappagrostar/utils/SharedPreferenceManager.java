@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -158,6 +159,16 @@ public class SharedPreferenceManager {
             stringSet = new HashSet<>();
         }
         stringSet.add(publicId);
+    }
+
+    public ArrayList<String> getUrls() {
+        SharedPreferences sharedpreferences =
+                mContext.getSharedPreferences(SharedPreferenceKeys.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        Set<String> stringSet = sharedpreferences.getStringSet(SharedPreferenceKeys.PREF_PHOTO_PUBLIC_IDS, null);
+        if (stringSet != null) {
+            return new ArrayList<>(stringSet);
+        }
+        return new ArrayList<>();
     }
 }
 

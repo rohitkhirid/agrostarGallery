@@ -72,16 +72,20 @@ public class Utils {
      */
     public ArrayList<String> getImageListFromAppStorage() {
         ArrayList<String> filePaths = new ArrayList<>();
-        File storageDir = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                Constants.CACHE_TEMP_IMAGES_SUBDIR);
-        File[] files = storageDir.listFiles();
-        for (File file : files) {
-            if (file.length() == 0) {
-                continue;
+        try {
+            File storageDir = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    Constants.CACHE_TEMP_IMAGES_SUBDIR);
+            File[] files = storageDir.listFiles();
+            for (File file : files) {
+                if (file.length() == 0) {
+                    continue;
+                }
+                filePaths.add(file.getAbsolutePath());
             }
-            filePaths.add(file.getAbsolutePath());
+            DebugLog.d("# of files : " + filePaths.size());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        DebugLog.d("# of files : " + filePaths.size());
         return filePaths;
     }
 
@@ -324,7 +328,7 @@ public class Utils {
         int unit = si ? 1000 : 1024;
         if (bytes < unit) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
         return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
 }

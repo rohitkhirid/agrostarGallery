@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -71,9 +70,6 @@ public class DocumentPicker extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                if (Build.VERSION.SDK_INT >= 18) {
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                }
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, IntentConstants.INTENT_CODE_GALLERY_IMAGE);
             }
@@ -150,6 +146,9 @@ public class DocumentPicker extends BaseActivity {
                 Intent intentWithUris = new Intent();
                 final ArrayList<Parcelable> parcelableArrayList = new ArrayList<>();
                 for (Parcelable P : parcelableUris) {
+                    if (P == null) {
+                        continue;
+                    }
                     if (ImageUtils.isImage(P.toString())) {
                         Intent intent = new Intent(mActivity, UploadService.class);
                         intent.putExtra(IntentConstants.INTENT_KEY_FILE_PATH_UPLOAD, P.toString());
