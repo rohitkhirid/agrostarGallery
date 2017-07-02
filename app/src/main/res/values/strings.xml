@@ -13,4 +13,7 @@
 
     <string name="label_logout">Logout</string>
     <string name="label_account_details">Account details</string>
+
+    <string name="message_logout_confirmation">Are you sure you want to log out?</string>
+    <string name="label_cancel">Cancel</string>
 </resources>

@@ -1,8 +1,10 @@
 package rohitkhirid.com.galleryappagrostar.utils;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,6 +15,7 @@ import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
+import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
 
 /**
  * Created by rohitkhirid on 7/1/17.
@@ -273,6 +277,10 @@ public class Utils {
             DebugLog.e("Exception : " + e.getLocalizedMessage());
             e.printStackTrace();
         }
+
+        Intent sendImageAddedBroadcast = new Intent(IntentConstants.BROADCAST_UI_CHANGE_IMAGE_ADAPTER);
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+        localBroadcastManager.sendBroadcast(sendImageAddedBroadcast);
     }
 
     public void copyFileToGalleryDirectory(File file) {
@@ -330,5 +338,45 @@ public class Utils {
         int exp = (int) (Math.log(bytes) / Math.log(unit));
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
         return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    }
+
+    /**
+     * Creates a confirmation dialog with Yes-No Button. By default the buttons just dismiss the
+     * dialog.
+     *
+     * @param message
+     *            Message to be shown in the dialog.
+     * @param yesListener
+     *            Yes click handler
+     * @param noListener
+     * @param yesLabel
+     *            Label for yes button
+     * @param noLabel
+     *            Label for no button
+     **/
+    public void showConfirmDialog(Context context, String message, DialogInterface.OnClickListener yesListener, DialogInterface.OnClickListener noListener, String yesLabel, String noLabel) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        if (yesListener == null) {
+            yesListener = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            };
+        }
+
+        if (noListener == null) {
+            noListener = new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            };
+        }
+
+        builder.setMessage(message).setPositiveButton(yesLabel, yesListener).setNegativeButton(noLabel, noListener).show();
     }
 }

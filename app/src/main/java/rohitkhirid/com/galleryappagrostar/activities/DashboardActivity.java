@@ -1,9 +1,14 @@
 package rohitkhirid.com.galleryappagrostar.activities;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +51,7 @@ public class DashboardActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case MENU_ACCOUNT_DETAILS:
                 DebugLog.d("account details");
@@ -54,13 +60,17 @@ public class DashboardActivity extends BaseActivity {
 
             case MENU_LOGOUT:
                 DebugLog.d("logout");
-                SharedPreferenceManager.getInstance().destroy();
-                LoginActivity.startMe(mActivity);
-                finish();
+                Utils.getInstance().showConfirmDialog(mActivity, getString(R.string.message_logout_confirmation), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferenceManager.getInstance().destroy();
+                        LoginActivity.startMe(mActivity);
+                        finish();
+                    }
+                }, null, getString(R.string.label_logout), getString(R.string.label_cancel));
                 break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
@@ -75,7 +85,18 @@ public class DashboardActivity extends BaseActivity {
         for (String url : urls) {
             DebugLog.d("url : " + url);
         }
+
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(mActivity);
+        localBroadcastManager.registerReceiver(mImageAddedReceiver, new IntentFilter(IntentConstants.BROADCAST_UI_CHANGE_IMAGE_ADAPTER));
     }
+
+    private BroadcastReceiver mImageAddedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            DebugLog.d("broadcast received");
+            refreshAdapter();
+        }
+    };
 
     private void initUi() {
         mSelectPhotoButton = (Button) findViewById(R.id.select_photo_button);
@@ -121,5 +142,15 @@ public class DashboardActivity extends BaseActivity {
     @Override
     protected void freeUpResources() {
         onDestroy();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            unregisterReceiver(mImageAddedReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -3,7 +3,7 @@ package rohitkhirid.com.galleryappagrostar.utils;
 import android.content.Context;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.Url;
+import com.cloudinary.Transformation;
 
 import java.io.File;
 import java.util.HashMap;
@@ -47,7 +47,10 @@ public class WrapperCloudnary {
 
     public void upload(File file) {
         try {
-            Map map = mCloudnary.uploader().upload(file, Cloudinary.asMap("public_id", file.getName()), null);
+            Map inputMap = new HashMap();
+            inputMap.put("transformation", new Transformation().width(2000).height(1000).crop("limit"));
+            inputMap.put("public_id", file.getName());
+            Map map = mCloudnary.uploader().upload(file, inputMap);
             DebugLog.d("adding key to shared preferency : " + map.get("url").toString());
             SharedPreferenceManager.getInstance().addImagePublicId(map.get("url").toString());
         } catch (Exception e) {

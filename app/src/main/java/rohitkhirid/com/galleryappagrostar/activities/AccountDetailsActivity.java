@@ -1,6 +1,7 @@
 package rohitkhirid.com.galleryappagrostar.activities;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
+import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
 public class AccountDetailsActivity extends BaseActivity {
     private ImageView mProfileImageView;
@@ -62,9 +64,14 @@ public class AccountDetailsActivity extends BaseActivity {
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferenceManager.getInstance().destroy();
-                LoginActivity.startMe(mActivity);
-                finish();
+                Utils.getInstance().showConfirmDialog(mActivity, getString(R.string.message_logout_confirmation), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferenceManager.getInstance().destroy();
+                        LoginActivity.startMe(mActivity);
+                        finish();
+                    }
+                }, null, getString(R.string.label_logout), getString(R.string.label_cancel));
             }
         });
     }
