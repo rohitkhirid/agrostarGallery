@@ -156,9 +156,12 @@ public class SharedPreferenceManager {
                 mContext.getSharedPreferences(SharedPreferenceKeys.PREF_FILE_NAME, Context.MODE_PRIVATE);
         Set<String> stringSet = sharedpreferences.getStringSet(SharedPreferenceKeys.PREF_PHOTO_PUBLIC_IDS, null);
         if (stringSet == null) {
+            DebugLog.d("creating new set");
             stringSet = new HashSet<>();
         }
+        DebugLog.d("adding new url to set : " + publicId);
         stringSet.add(publicId);
+        DebugLog.d("set contains : " + stringSet.size() + " urls");
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putStringSet(SharedPreferenceKeys.PREF_PHOTO_PUBLIC_IDS, stringSet);
         editor.apply();
