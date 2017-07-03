@@ -56,7 +56,7 @@ public class WrapperCloudinary {
             inputMap.put("transformation", new Transformation().width(2000).height(1000).crop("limit"));
             inputMap.put("public_id", file.getName());
             Map map = mCloudnary.uploader().upload(file, inputMap);
-            DebugLog.d("adding key to shared preferency : " + map.get("url").toString());
+            DebugLog.d("adding key to database : " + map.get("url").toString());
             dataBaseEntry.remoteUrl = map.get("url").toString();
             RDatabaseHelper rDatabaseHelper = new RDatabaseHelper(mContext);
             rDatabaseHelper.update(dataBaseEntry);

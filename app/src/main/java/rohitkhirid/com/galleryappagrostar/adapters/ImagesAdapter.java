@@ -1,6 +1,7 @@
 package rohitkhirid.com.galleryappagrostar.adapters;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mImageView;
+        private ImageView mImageView, mStatusImageView;
         private TextView mFileNameTextView, mFileSizeTextView, mFileTimeStampTextView;
         private View mPlankView;
 
@@ -63,11 +64,21 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
             mFileNameTextView = (TextView) view.findViewById(R.id.filename_textview);
             mFileSizeTextView = (TextView) view.findViewById(R.id.filesize_textview);
             mFileTimeStampTextView = (TextView) view.findViewById(R.id.timestamp_textview);
+            mStatusImageView = (ImageView) view.findViewById(R.id.upload_status_image_view);
             mPlankView = view;
         }
 
         public void onBindCustomViewHolder(final int position) {
             final String filePath = mFiles.get(position).filePath;
+            int uploadStatus = mFiles.get(position).successBit;
+            mStatusImageView.setVisibility(View.VISIBLE);
+            if (uploadStatus == RDatabaseHelper.BIT_SUCCESS) {
+                mStatusImageView.setImageDrawable(ContextCompat.getDrawable(mActivity, R.drawable.ic_check));
+            } else if (uploadStatus == RDatabaseHelper.BIT_FAILURE) {
+                mStatusImageView.setImageDrawable(ContextCompat.getDrawable(mActivity, R.drawable.ic_waiting));
+            } else {
+                mStatusImageView.setVisibility(View.GONE);
+            }
             if (!Utils.getInstance().isEmpty(filePath)) {
                 File file = new File(filePath);
                 if (file != null) {

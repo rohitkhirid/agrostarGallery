@@ -27,8 +27,8 @@ public class RDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_SUCCESS_BIT = "success_bit";
     private static final String COLUMN_TIMESTAMP = "timestamp";
 
-    private static final int BIT_SUCCESS = 1;
-    private static final int BIT_FAILURE = 0;
+    public static final int BIT_SUCCESS = 1;
+    public static final int BIT_FAILURE = 0;
 
     private SQLiteDatabase mDatabase;
 

@@ -105,6 +105,7 @@ public class DashboardActivity extends BaseActivity {
 
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(mActivity);
         localBroadcastManager.registerReceiver(mImageAddedReceiver, new IntentFilter(IntentConstants.BROADCAST_UI_CHANGE_IMAGE_ADAPTER));
+        localBroadcastManager.registerReceiver(mImageAddedReceiver, new IntentFilter(IntentConstants.BROADCAST_UI_CHANGE_URL_ADAPTER));
     }
 
     private BroadcastReceiver mImageAddedReceiver = new BroadcastReceiver() {

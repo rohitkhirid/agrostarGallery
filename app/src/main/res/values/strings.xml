@@ -9,6 +9,8 @@
     <string name="message_no_suitable_app">No suitable app found to perform this actions.</string>
     <string name="message_take_photos">Looks like you have not taken any photos with this awesome app.
         Click on the button below to start taking pictures!</string>
+    <string name="message_no_urls">No active url\'s found, to back up your photos from this app please
+    make sure you are connected to Internet</string>
     <string name="label_start">Start</string>
 
     <string name="label_logout">Logout</string>
