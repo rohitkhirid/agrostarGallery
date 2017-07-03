@@ -16,6 +16,11 @@ import java.io.File;
 import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
 
+/**
+ * shows full screen
+ *
+ * either from image file or from url
+ */
 public class FullScreenImageActivity extends BaseActivity {
     private String mImagePath;
 

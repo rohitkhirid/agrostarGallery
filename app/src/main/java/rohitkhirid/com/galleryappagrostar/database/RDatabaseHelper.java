@@ -3,7 +3,6 @@ package rohitkhirid.com.galleryappagrostar.database;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,6 +14,8 @@ import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 
 /**
  * Created by rohitkhirid on 7/3/17.
+ *
+ * database abstraction for table to store filePaths and Url in database
  */
 public class RDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "images";
@@ -65,10 +66,6 @@ public class RDatabaseHelper extends SQLiteOpenHelper {
         public String remoteUrl;
         public int successBit;
         public long currentTimestamp;
-
-        public DataBaseEntry(String filePath) {
-            this.filePath = filePath;
-        }
 
         public DataBaseEntry(Cursor cursor) {
             this.id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));

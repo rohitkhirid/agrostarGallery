@@ -28,6 +28,16 @@ import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
+/**
+ * home activity, user is redirected here after login
+ *
+ * has list of images in gallery
+ *
+ * and option in overflow menu to {@link AccountDetailsActivity}, {@link CloudinaryUrlsActivity}
+ * and option to logout
+ *
+ * listens to broadcast {@link IntentConstants#BROADCAST_UI_CHANGE_IMAGE_ADAPTER} for ui changes
+ */
 public class DashboardActivity extends BaseActivity {
     private static final int MENU_ACCOUNT_DETAILS = 1;
     private static final int MENU_CLOUDANIRY_URLS = 2;

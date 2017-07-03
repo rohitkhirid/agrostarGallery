@@ -25,6 +25,12 @@ import rohitkhirid.com.galleryappagrostar.utils.ImageUtils;
 import rohitkhirid.com.galleryappagrostar.utils.PermissionUtils;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
+/**
+ * allows user to pick either from gallery or take image from camera
+ * <p>
+ * returns result at code {@link IntentConstants#INTENT_CODE_DOCUMENT_PICKER}
+ * and data can be found at key {@link IntentConstants#INTENT_KEY_IMAGE_FILEPATH}
+ */
 public class DocumentPicker extends BaseActivity {
     private RDatabaseHelper mDatabasehelper;
     /**

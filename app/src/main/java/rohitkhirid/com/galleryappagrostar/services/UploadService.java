@@ -1,6 +1,5 @@
 package rohitkhirid.com.galleryappagrostar.services;
 
-import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +9,12 @@ import java.util.ArrayList;
 
 import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
-import rohitkhirid.com.galleryappagrostar.utils.WrapperCloudnary;
+import rohitkhirid.com.galleryappagrostar.utils.WrapperCloudinary;
 
 /**
  * Created by rohitkhirid on 7/2/17.
+ * <p>
+ * service uploads filePaths from database to server.
  */
 public class UploadService extends IntentService {
 
@@ -33,7 +34,7 @@ public class UploadService extends IntentService {
             ArrayList<RDatabaseHelper.DataBaseEntry> filePaths = rDatabaseHelper.getAllPendingFiles();
             DebugLog.d("# of files : " + filePaths.size());
             for (RDatabaseHelper.DataBaseEntry entry : filePaths) {
-                WrapperCloudnary.getInstance().upload(entry);
+                WrapperCloudinary.getInstance().upload(entry);
             }
             this.stopSelf();
         } catch (Exception e) {

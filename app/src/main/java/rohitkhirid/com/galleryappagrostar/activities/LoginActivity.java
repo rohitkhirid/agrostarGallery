@@ -1,6 +1,7 @@
 package rohitkhirid.com.galleryappagrostar.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
 
     private SignInButton mGoogleSignInButton;
+    private ProgressDialog mProgressDialog;
 
     public static void startMe(Activity activity) {
         Intent loginActivityIntent = new Intent(activity, LoginActivity.class);
@@ -62,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     private void initUi() {
+        mProgressDialog = new ProgressDialog(this);
         mGoogleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
         mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +72,11 @@ public class LoginActivity extends AppCompatActivity {
                 DebugLog.d("onButtonClick");
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, IntentConstants.INTENT_CODE_GOOGLE_SIGN_IN);
+                try {
+                    mProgressDialog = ProgressDialog.show(LoginActivity.this, null, getString(R.string.label_please_wait), true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -77,6 +85,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentConstants.INTENT_CODE_GOOGLE_SIGN_IN && resultCode == Activity.RESULT_OK) {
+            try {
+                mProgressDialog.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             DebugLog.d("onActivityResult from google sign in");
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {

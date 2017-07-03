@@ -15,7 +15,6 @@ import rohitkhirid.com.galleryappagrostar.constants.Constants;
 /**
  * Created by rohitkhirid on 7/1/17.
  */
-
 public class ImageUtils {
     public static String createImageFile(Context context) throws IOException {
         // Create an image file name

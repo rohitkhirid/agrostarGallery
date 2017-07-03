@@ -16,7 +16,6 @@ import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 /**
  * Created by rohitkhirid on 7/2/17.
  */
-
 public class UrlsAdapter extends RecyclerView.Adapter<UrlsAdapter.ViewHolder> {
 
     ArrayList<RDatabaseHelper.DataBaseEntry> mUrls;

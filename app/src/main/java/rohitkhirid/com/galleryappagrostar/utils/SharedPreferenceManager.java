@@ -48,9 +48,6 @@ public class SharedPreferenceManager {
         private static final String PREF_GIVEN_NAME = "shared_preference_given_name";
         private static final String PREF_FAMILY_NAME = "shared_preference_family_name";
         private static final String PREF_PHOTO_URL = "shared_preference_photo_url";
-
-        // set of public id's for cloudnary images
-        private static final String PREF_PHOTO_PUBLIC_IDS = "shared_preference_cloudinary_public_ids";
     }
 
     public static SharedPreferenceManager getInstance() {

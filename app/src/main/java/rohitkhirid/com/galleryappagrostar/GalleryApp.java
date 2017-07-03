@@ -5,12 +5,11 @@ import android.app.Application;
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
-import rohitkhirid.com.galleryappagrostar.utils.WrapperCloudnary;
+import rohitkhirid.com.galleryappagrostar.utils.WrapperCloudinary;
 
 /**
  * Created by rohitkhirid on 7/1/17.
  */
-
 public class GalleryApp extends Application {
     @Override
     public void onCreate() {
@@ -28,6 +27,6 @@ public class GalleryApp extends Application {
         }
 
         // image server
-        WrapperCloudnary.init(this);
+        WrapperCloudinary.init(this);
     }
 }

@@ -20,6 +20,11 @@ import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
 
+/**
+ * lists urls of images uploaded from database
+ *
+ * received to broadcast {@link IntentConstants#BROADCAST_UI_CHANGE_URL_ADAPTER} for ui changes
+ */
 public class CloudinaryUrlsActivity extends BaseActivity {
 
     private SuperRecyclerView mUrlsRecyclerView;

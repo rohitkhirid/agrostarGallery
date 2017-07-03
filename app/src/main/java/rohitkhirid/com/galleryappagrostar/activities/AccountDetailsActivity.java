@@ -18,6 +18,11 @@ import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
+/**
+ * shows account details fetched from Google Sign In api.
+ *
+ * also has an logout option
+ */
 public class AccountDetailsActivity extends BaseActivity {
     private ImageView mProfileImageView;
     private TextView mProfileNameTextView;

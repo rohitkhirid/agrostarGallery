@@ -72,30 +72,6 @@ public class Utils {
     }
 
     /**
-     * reads file from our directory
-     *
-     * @return
-     */
-    public ArrayList<String> getImageListFromAppStorage() {
-        ArrayList<String> filePaths = new ArrayList<>();
-        try {
-            File storageDir = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                    Constants.CACHE_TEMP_IMAGES_SUBDIR);
-            File[] files = storageDir.listFiles();
-            for (File file : files) {
-                if (file.length() == 0) {
-                    continue;
-                }
-                filePaths.add(file.getAbsolutePath());
-            }
-            DebugLog.d("# of files : " + filePaths.size());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return filePaths;
-    }
-
-    /**
      * @param string
      * @return true if string is null or blank ("")
      */
@@ -346,15 +322,11 @@ public class Utils {
      * Creates a confirmation dialog with Yes-No Button. By default the buttons just dismiss the
      * dialog.
      *
-     * @param message
-     *            Message to be shown in the dialog.
-     * @param yesListener
-     *            Yes click handler
+     * @param message     Message to be shown in the dialog.
+     * @param yesListener Yes click handler
      * @param noListener
-     * @param yesLabel
-     *            Label for yes button
-     * @param noLabel
-     *            Label for no button
+     * @param yesLabel    Label for yes button
+     * @param noLabel     Label for no button
      **/
     public void showConfirmDialog(Context context, String message, DialogInterface.OnClickListener yesListener, DialogInterface.OnClickListener noListener, String yesLabel, String noLabel) {
 

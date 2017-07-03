@@ -10,6 +10,10 @@ import rohitkhirid.com.galleryappagrostar.services.UploadService;
 
 /**
  * Created by rohitkhirid on 7/3/17.
+ *
+ * called after network change.
+ * 
+ * we call {@link UploadService} on network change.
  */
 public class NetworkStateReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {

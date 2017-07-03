@@ -18,9 +18,9 @@ import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 /**
  * Created by rohitkhirid on 7/2/17.
  */
-public class WrapperCloudnary {
+public class WrapperCloudinary {
 
-    private volatile static WrapperCloudnary mCloudnaryUtils;
+    private volatile static WrapperCloudinary mCloudnaryUtils;
 
     private Context mContext;
 
@@ -28,15 +28,15 @@ public class WrapperCloudnary {
 
     public static void init(Context context) {
         if (mCloudnaryUtils == null) {
-            synchronized (WrapperCloudnary.class) {
+            synchronized (WrapperCloudinary.class) {
                 if (mCloudnaryUtils == null) {
-                    mCloudnaryUtils = new WrapperCloudnary(context);
+                    mCloudnaryUtils = new WrapperCloudinary(context);
                 }
             }
         }
     }
 
-    private WrapperCloudnary(Context context) {
+    private WrapperCloudinary(Context context) {
         mContext = context;
         Map config = new HashMap();
         config.put("cloud_name", Constants.CLOUD_NAME);
@@ -45,7 +45,7 @@ public class WrapperCloudnary {
         mCloudnary = new Cloudinary(config);
     }
 
-    public static WrapperCloudnary getInstance() {
+    public static WrapperCloudinary getInstance() {
         return mCloudnaryUtils;
     }
 
