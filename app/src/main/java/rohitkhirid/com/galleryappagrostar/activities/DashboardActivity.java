@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.adapters.ImagesAdapter;
 import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
+import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 import rohitkhirid.com.galleryappagrostar.docpicker.DocumentPicker;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
@@ -29,14 +30,16 @@ import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
 public class DashboardActivity extends BaseActivity {
     private static final int MENU_ACCOUNT_DETAILS = 1;
-    private static final int MENU_LOGOUT = 2;
-    private static final int MENU_CLOUDANIRY_URLS = 3;
+    private static final int MENU_CLOUDANIRY_URLS = 2;
+    private static final int MENU_LOGOUT = 3;
 
     private Button mSelectPhotoButton;
     private SuperRecyclerView mImageRecyclerView;
 
-    private ArrayList<String> mImagePaths;
+    private ArrayList<RDatabaseHelper.DataBaseEntry> mImagePaths;
     private ImagesAdapter mImagesAdapter;
+
+    private RDatabaseHelper mDatabaseHelper;
 
     public static void startMe(Activity activity) {
         Intent dashboardActivityIntent = new Intent(activity, DashboardActivity.class);
@@ -46,8 +49,8 @@ public class DashboardActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, MENU_ACCOUNT_DETAILS, 1, R.string.label_account_details);
-        menu.add(0, MENU_LOGOUT, 2, R.string.label_logout);
-        menu.add(0, MENU_CLOUDANIRY_URLS, 3, R.string.label_cloudinary_urls);
+        menu.add(0, MENU_CLOUDANIRY_URLS, 2, R.string.label_cloudinary_urls);
+        menu.add(0, MENU_LOGOUT, 3, R.string.label_logout);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -85,13 +88,10 @@ public class DashboardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        initUi();
+        mDatabaseHelper = new RDatabaseHelper(mActivity);
+        mDatabaseHelper.printTable();
 
-        ArrayList<String> urls = SharedPreferenceManager.getInstance().getUrls();
-        DebugLog.d("# of images : " + urls.size());
-        for (String url : urls) {
-            DebugLog.d("url : " + url);
-        }
+        initUi();
 
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(mActivity);
         localBroadcastManager.registerReceiver(mImageAddedReceiver, new IntentFilter(IntentConstants.BROADCAST_UI_CHANGE_IMAGE_ADAPTER));
@@ -115,7 +115,7 @@ public class DashboardActivity extends BaseActivity {
             }
         });
 
-        mImagePaths = Utils.getInstance().getImageListFromAppStorage();
+        mImagePaths = mDatabaseHelper.getAll();
         mImagesAdapter = new ImagesAdapter(mActivity, mImagePaths);
 
         mImageRecyclerView = (SuperRecyclerView) findViewById(R.id.images_recycler_view);
@@ -137,7 +137,7 @@ public class DashboardActivity extends BaseActivity {
 
     private void refreshAdapter() {
         try {
-            ArrayList<String> imagePaths = Utils.getInstance().getImageListFromAppStorage();
+            ArrayList<RDatabaseHelper.DataBaseEntry> imagePaths = mDatabaseHelper.getAll();
             mImagePaths.clear();
             mImagePaths.addAll(imagePaths);
             mImagesAdapter.notifyDataSetChanged();

@@ -19,14 +19,14 @@ import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.activities.BaseActivity;
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
-import rohitkhirid.com.galleryappagrostar.services.UploadService;
+import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.ImageUtils;
 import rohitkhirid.com.galleryappagrostar.utils.PermissionUtils;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
 public class DocumentPicker extends BaseActivity {
-
+    private RDatabaseHelper mDatabasehelper;
     /**
      * temp file made on external storage which is used by camera intent
      * to store captured image
@@ -46,6 +46,8 @@ public class DocumentPicker extends BaseActivity {
         setContentView(R.layout.activity_document_picker);
 
         initUi();
+
+        mDatabasehelper = new RDatabaseHelper(mActivity);
     }
 
     private void initUi() {
@@ -158,7 +160,7 @@ public class DocumentPicker extends BaseActivity {
             int fileSize = Integer.parseInt(String.valueOf(file.length()));
             DebugLog.d("file size : " + fileSize);
             if (fileSize != 0) {
-                UploadService.startMe(mActivity, mCameraImageFilePath);
+                mDatabasehelper.put(mActivity, mCameraImageFilePath, null);
                 parcelableArrayList.add(Uri.parse(file.getAbsolutePath()));
                 intentWithUris.putParcelableArrayListExtra(IntentConstants.INTENT_KEY_IMAGE_FILEPATH, parcelableArrayList);
                 setResult(Activity.RESULT_OK, intentWithUris);
@@ -181,6 +183,7 @@ public class DocumentPicker extends BaseActivity {
                         continue;
                     }
                     if (ImageUtils.isImage(P.toString())) {
+                        mDatabasehelper.put(mActivity, P.toString(), null);
                         parcelableArrayList.add(P);
                     } else {
                         // TODO remove this when we start supporting other formats
@@ -193,7 +196,6 @@ public class DocumentPicker extends BaseActivity {
                     public void run() {
                         DebugLog.d("moving files");
                         Utils.getInstance().copyFileToGalleryDirectory(parcelableArrayList);
-                        UploadService.startMe(mActivity, parcelableArrayList);
                     }
                 });
                 DebugLog.d("Total image selected : " + parcelableArrayList.size());

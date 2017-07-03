@@ -1,5 +1,6 @@
 package rohitkhirid.com.galleryappagrostar.utils;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ContentUris;
@@ -31,6 +32,7 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
@@ -378,5 +380,29 @@ public class Utils {
         }
 
         builder.setMessage(message).setPositiveButton(yesLabel, yesListener).setNegativeButton(noLabel, noListener).show();
+    }
+
+    /**
+     * Checks if the service with the given name is currently running on the device.
+     */
+    public boolean isServiceAlreadyRunning(String serviceName) {
+        ActivityManager manager = (ActivityManager) mContext.getSystemService(mContext.ACTIVITY_SERVICE);
+
+        if (manager == null) {
+            return false;
+        }
+
+        List<ActivityManager.RunningServiceInfo> runningServices = manager.getRunningServices(Integer.MAX_VALUE);
+
+        if (runningServices != null) {
+            for (ActivityManager.RunningServiceInfo service : runningServices) {
+                if (service != null && service.service.getClassName().equals(serviceName)) {
+                    DebugLog.i(" " + serviceName + " is already running.");
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

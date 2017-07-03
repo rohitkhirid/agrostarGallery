@@ -13,6 +13,7 @@ import java.util.Map;
 
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
 import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
+import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 
 /**
  * Created by rohitkhirid on 7/2/17.
@@ -48,14 +49,17 @@ public class WrapperCloudnary {
         return mCloudnaryUtils;
     }
 
-    public void upload(File file) {
+    public void upload(RDatabaseHelper.DataBaseEntry dataBaseEntry) {
         try {
+            File file = new File(dataBaseEntry.filePath);
             Map inputMap = new HashMap();
             inputMap.put("transformation", new Transformation().width(2000).height(1000).crop("limit"));
             inputMap.put("public_id", file.getName());
             Map map = mCloudnary.uploader().upload(file, inputMap);
             DebugLog.d("adding key to shared preferency : " + map.get("url").toString());
-            SharedPreferenceManager.getInstance().addImagePublicId(map.get("url").toString());
+            dataBaseEntry.remoteUrl = map.get("url").toString();
+            RDatabaseHelper rDatabaseHelper = new RDatabaseHelper(mContext);
+            rDatabaseHelper.update(dataBaseEntry);
 
             Intent intent = new Intent(IntentConstants.BROADCAST_UI_CHANGE_URL_ADAPTER);
             LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(mContext);

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.adapters.UrlsAdapter;
 import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
+import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.SharedPreferenceManager;
 
@@ -24,7 +25,8 @@ public class CloudinaryUrlsActivity extends BaseActivity {
     private SuperRecyclerView mUrlsRecyclerView;
     private UrlsAdapter mUrlsAdapter;
 
-    private ArrayList<String> mUrls;
+    private RDatabaseHelper mDatabaseHelper;
+    private ArrayList<RDatabaseHelper.DataBaseEntry> mUrls;
 
     public static void startMe(Activity activity) {
         Intent intent = new Intent(activity, CloudinaryUrlsActivity.class);
@@ -36,6 +38,7 @@ public class CloudinaryUrlsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cloudinary_urls);
 
+        mDatabaseHelper = new RDatabaseHelper(mActivity);
         initUi();
 
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(mActivity);
@@ -55,13 +58,13 @@ public class CloudinaryUrlsActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         mUrlsRecyclerView.setLayoutManager(linearLayoutManager);
 
-        mUrls = SharedPreferenceManager.getInstance().getUrls();
+        mUrls = mDatabaseHelper.getAllUrls();
         mUrlsAdapter = new UrlsAdapter(mActivity, mUrls);
         mUrlsRecyclerView.setAdapter(mUrlsAdapter);
     }
 
     private void refreshAdapter() {
-        ArrayList<String> urls = SharedPreferenceManager.getInstance().getUrls();
+        ArrayList<RDatabaseHelper.DataBaseEntry> urls =mDatabaseHelper.getAllUrls();
         mUrls.clear();
         mUrls.addAll(urls);
         mUrlsAdapter.notifyDataSetChanged();

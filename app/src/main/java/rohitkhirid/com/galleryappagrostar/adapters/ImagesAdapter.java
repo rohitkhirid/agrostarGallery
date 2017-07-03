@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.activities.FullScreenImageActivity;
 import rohitkhirid.com.galleryappagrostar.constants.Constants;
+import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.Utils;
 
@@ -24,11 +25,11 @@ import rohitkhirid.com.galleryappagrostar.utils.Utils;
  */
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder> {
     private Activity mActivity;
-    private ArrayList<String> mImagePaths;
+    private ArrayList<RDatabaseHelper.DataBaseEntry> mFiles;
 
-    public ImagesAdapter(Activity activity, ArrayList<String> imagePaths) {
+    public ImagesAdapter(Activity activity, ArrayList<RDatabaseHelper.DataBaseEntry> imagePaths) {
         mActivity = activity;
-        mImagePaths = imagePaths;
+        mFiles = imagePaths;
     }
 
     @Override
@@ -45,10 +46,10 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        if (mImagePaths == null) {
+        if (mFiles == null) {
             return 0;
         }
-        return mImagePaths.size();
+        return mFiles.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,7 +67,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
         }
 
         public void onBindCustomViewHolder(final int position) {
-            final String filePath = mImagePaths.get(position);
+            final String filePath = mFiles.get(position).filePath;
             if (!Utils.getInstance().isEmpty(filePath)) {
                 File file = new File(filePath);
                 if (file != null) {

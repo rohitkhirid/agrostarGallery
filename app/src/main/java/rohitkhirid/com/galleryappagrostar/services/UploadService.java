@@ -2,14 +2,13 @@ package rohitkhirid.com.galleryappagrostar.services;
 
 import android.app.Activity;
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
+import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 import rohitkhirid.com.galleryappagrostar.utils.DebugLog;
 import rohitkhirid.com.galleryappagrostar.utils.WrapperCloudnary;
 
@@ -18,22 +17,9 @@ import rohitkhirid.com.galleryappagrostar.utils.WrapperCloudnary;
  */
 public class UploadService extends IntentService {
 
-    public static void startMe(Activity activity, String filePath) {
-        Intent startUploadServiceIntent = new Intent(activity, UploadService.class);
-        ArrayList<String> filePaths = new ArrayList<>();
-        filePaths.add(filePath);
-        startUploadServiceIntent.putStringArrayListExtra(IntentConstants.INTENT_KEY_FILE_PATHS_UPLOAD, filePaths);
-        activity.startService(startUploadServiceIntent);
-    }
-
-    public static void startMe(Activity activity, ArrayList<Parcelable> parcelableArrayList) {
-        ArrayList<String> filePaths = new ArrayList<>();
-        for (Parcelable p : parcelableArrayList) {
-            filePaths.add(p.toString());
-        }
-        Intent startUploadServiceIntent = new Intent(activity, UploadService.class);
-        startUploadServiceIntent.putStringArrayListExtra(IntentConstants.INTENT_KEY_FILE_PATHS_UPLOAD, filePaths);
-        activity.startService(startUploadServiceIntent);
+    public static void startMe(Context context) {
+        Intent startUploadServiceIntent = new Intent(context, UploadService.class);
+        context.startService(startUploadServiceIntent);
     }
 
     public UploadService() {
@@ -43,11 +29,11 @@ public class UploadService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         try {
-            ArrayList<String> filePaths = intent.getStringArrayListExtra(IntentConstants.INTENT_KEY_FILE_PATHS_UPLOAD);
+            RDatabaseHelper rDatabaseHelper = new RDatabaseHelper(this);
+            ArrayList<RDatabaseHelper.DataBaseEntry> filePaths = rDatabaseHelper.getAllPendingFiles();
             DebugLog.d("# of files : " + filePaths.size());
-            for (String filePath : filePaths) {
-                File file = new File(filePath);
-                WrapperCloudnary.getInstance().upload(file);
+            for (RDatabaseHelper.DataBaseEntry entry : filePaths) {
+                WrapperCloudnary.getInstance().upload(entry);
             }
             this.stopSelf();
         } catch (Exception e) {

@@ -23,8 +23,6 @@ public class IntentConstants {
 
     public static final int INTENT_CODE_DOCUMENT_PICKER = 5;
 
-    public static final String INTENT_KEY_FILE_PATHS_UPLOAD = "uploaderservice.filepath";
-
     public static final String INTENT_KEY_FILE_PATH_FULLSCREEN = "fullScreenActivity.filepath";
 
     public static final String BROADCAST_UI_CHANGE_IMAGE_ADAPTER = "dashboardactivity.uichange.imageadappter";

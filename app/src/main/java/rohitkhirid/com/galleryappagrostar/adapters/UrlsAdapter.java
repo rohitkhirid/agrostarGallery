@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import rohitkhirid.com.galleryappagrostar.R;
 import rohitkhirid.com.galleryappagrostar.activities.FullScreenImageActivity;
+import rohitkhirid.com.galleryappagrostar.database.RDatabaseHelper;
 
 /**
  * Created by rohitkhirid on 7/2/17.
@@ -18,10 +19,10 @@ import rohitkhirid.com.galleryappagrostar.activities.FullScreenImageActivity;
 
 public class UrlsAdapter extends RecyclerView.Adapter<UrlsAdapter.ViewHolder> {
 
-    ArrayList<String> mUrls;
+    ArrayList<RDatabaseHelper.DataBaseEntry> mUrls;
     Activity mActivity;
 
-    public UrlsAdapter(Activity activity, ArrayList<String> urls) {
+    public UrlsAdapter(Activity activity, ArrayList<RDatabaseHelper.DataBaseEntry> urls) {
         mActivity = activity;
         mUrls = urls;
     }
@@ -45,11 +46,11 @@ public class UrlsAdapter extends RecyclerView.Adapter<UrlsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.mTextView.setText(mUrls.get(position));
+        holder.mTextView.setText(mUrls.get(position).remoteUrl);
         holder.mPlankView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FullScreenImageActivity.startMe(mActivity, mUrls.get(position));
+                FullScreenImageActivity.startMe(mActivity, mUrls.get(position).remoteUrl);
             }
         });
     }
