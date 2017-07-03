@@ -4,11 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-
-import rohitkhirid.com.galleryappagrostar.constants.IntentConstants;
 
 /**
  * Created by rohitkhirid on 7/1/17.
@@ -21,10 +18,8 @@ public class PermissionUtils {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-    public static void requestCameraStoragePermission(@Nullable Fragment fragment, @Nullable Activity activity, int requestCode) {
-        if (fragment != null) {
-            fragment.requestPermissions(PERMISSIONS_CAMERA_STORAGE, requestCode);
-        } else if (activity != null) {
+    public static void requestCameraStoragePermission(@NonNull Activity activity, int requestCode) {
+        if (activity != null) {
             ActivityCompat.requestPermissions(activity, PERMISSIONS_CAMERA_STORAGE, requestCode);
         } else {
             DebugLog.e("Both fragment and activity are null");

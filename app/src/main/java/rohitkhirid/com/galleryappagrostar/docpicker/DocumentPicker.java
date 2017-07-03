@@ -1,6 +1,8 @@
 package rohitkhirid.com.galleryappagrostar.docpicker;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -9,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.view.View;
 
@@ -64,7 +68,7 @@ public class DocumentPicker extends BaseActivity {
                 DebugLog.d("DocumentPicker : camera click");
                 if (!PermissionUtils.checkCameraAndStoragePermission(mActivity)) {
                     DebugLog.d("Permissions not present, requesting permissions");
-                    PermissionUtils.requestCameraStoragePermission(null, DocumentPicker.this, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_CAMERA);
+                    PermissionUtils.requestCameraStoragePermission(DocumentPicker.this, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_CAMERA);
                 } else {
                     DebugLog.d("have required permissions");
                     getCameraImage();
@@ -79,7 +83,7 @@ public class DocumentPicker extends BaseActivity {
                 DebugLog.d("DocumentPicker : gallery click");
                 if (!PermissionUtils.checkCameraAndStoragePermission(mActivity)) {
                     DebugLog.d("Permissions not present, requesting permissions");
-                    PermissionUtils.requestCameraStoragePermission(null, DocumentPicker.this, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_GALLERY);
+                    PermissionUtils.requestCameraStoragePermission(DocumentPicker.this, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_GALLERY);
                 } else {
                     DebugLog.d("have required permissions");
                     getGalleryImages();
@@ -100,7 +104,30 @@ public class DocumentPicker extends BaseActivity {
         if (requestCode == IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_CAMERA) {
             for (int result : grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
-                    finish();
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.CAMERA)) {
+                        Utils.getInstance().showConfirmDialog(mActivity, getString(R.string.message_give_permissions), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                PermissionUtils.requestCameraStoragePermission(mActivity, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_CAMERA);
+                            }
+                        }, null, getString(R.string.label_yes), getString(R.string.label_no));
+                    } else {
+                        Utils.getInstance().showConfirmDialog(mActivity, getString(R.string.message_give_permissions), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (mActivity == null) {
+                                    return;
+                                }
+                                Intent intent = new Intent();
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", mActivity.getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                            }
+                        }, null, getString(R.string.label_yes), getString(R.string.label_no));
+                    }
                     return;
                 }
             }
@@ -111,7 +138,30 @@ public class DocumentPicker extends BaseActivity {
         if (requestCode == IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_GALLERY) {
             for (int result : grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
-                    finish();
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.CAMERA)) {
+                        Utils.getInstance().showConfirmDialog(mActivity, getString(R.string.message_give_permissions), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                PermissionUtils.requestCameraStoragePermission(mActivity, IntentConstants.PERMISSION_REQUEST_CODE_CAMERA_STORAGE_CAMERA);
+                            }
+                        }, null, getString(R.string.label_yes), getString(R.string.label_no));
+                    } else {
+                        Utils.getInstance().showConfirmDialog(mActivity, getString(R.string.message_give_permissions), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (mActivity == null) {
+                                    return;
+                                }
+                                Intent intent = new Intent();
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", mActivity.getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                            }
+                        }, null, getString(R.string.label_yes), getString(R.string.label_no));
+                    }
                     return;
                 }
             }

@@ -20,4 +20,11 @@
     <string name="message_logout_confirmation">Are you sure you want to log out?</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_please_wait">Please wait...</string>
+
+    <string name="message_give_permissions">Please ensure that you have provided all required permission for this app to perform. Click yes to give permissions</string>
+    <string name="label_yes">Yes</string>
+    <string name="label_no">No</string>
+
+    <string name="message_permission_denied">Camera and storage permission denied.</string>
+    <string name="label_settings">Settings</string>
 </resources>
